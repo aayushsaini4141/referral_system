@@ -1,0 +1,31 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Referral {
+  _id: ID!
+  referralCode: String!
+  userId: String!
+  createdAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type ReferralResponse {
+  referralCode: String!
+}
+
+type Query {
+  referrals: [Referral!]
+}
+
+type Mutation {
+  createReferral(input: CreateReferralInput!): ReferralResponse!
+}
+
+input CreateReferralInput {
+  userId: String!
+}

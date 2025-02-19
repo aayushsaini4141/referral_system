@@ -1,0 +1,9 @@
+{
+    "collection": "@nestjs/schematics",
+    "sourceRoot": ".",
+    "compilerOptions": {
+      "deleteOutDir": true,
+      "webpack": true
+    }
+  }
+  
