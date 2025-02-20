@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import { gql, useQuery } from "@apollo/client";
+
 // import { Menu, Bell, X, Home, User, Settings, BarChart } from 'lucide-react';
 import {
   Menu,
@@ -17,6 +19,14 @@ import {
   Users,
   Filter,
 } from "lucide-react";
+const GET_REFERRALS = gql`
+  query {
+    referrals {
+      name
+      referralLink
+    }
+  }
+`;
 const DashboardLayout = () => {
   const [filter, setFilter] = useState("All"); // State for filter selection
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -27,6 +37,18 @@ const DashboardLayout = () => {
     setFilter(tempFilter);
     setIsFilterOpen(false);
   };
+
+  const { data, loading, error } = useQuery(GET_REFERRALS);
+  const [referralData, setReferralData] = useState<{ name: string; referralLink: string } | null>(null);
+
+  useEffect(() => {
+    if (data && data.referrals.length > 0) {
+      setReferralData(data.referrals[0]); // Show the first referral
+    }
+  }, [data]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error loading referrals</p>;
  
   const mockData = {
     user: {
@@ -140,7 +162,7 @@ const DashboardLayout = () => {
           <div className="flex items-center space-x-3">
             <img src="/6.png" className="h-9 w-9 rounded-full" alt="Name" />
             <span className="hidden md:inline text-sm font-medium text-gray-700">
-              John Doe
+            {referralData?.name || "User"}
             </span>
           </div>
  
@@ -240,7 +262,7 @@ const DashboardLayout = () => {
             <div className="flex flex-col sm:flex-row sm:items-center gap-4">
               <input
                 type="text"
-                value={mockData.user.referralLink}
+                value={referralData?.referralLink || "No referral link available"}
                 readOnly
                 className="flex-1 p-2 bg-gray-50 rounded border"
               />
