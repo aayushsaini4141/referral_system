@@ -1,12 +1,27 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-
+ 
 @InputType()
 export class CreateReferralInput {
   @Field()
-  userId: string;
+  name: string;
+ 
+  @Field()
+  phoneNumber: string;
+ 
+  @Field()
+  email: string;
+ 
+  @Field({ nullable: true })
+  businessName?: string;
 }
+ 
 @ObjectType()
 export class ReferralResponse {
   @Field()
-  referralCode: string;
+  name: string;
+ 
+  @Field()
+  referralLink: string;
 }
+ 
+ 
