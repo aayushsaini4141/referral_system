@@ -11,7 +11,7 @@ import {
   DollarSign,
   Copy,
   Medal,
-  // TrendingUp,
+  TrendingUp,
   Trophy,
   Share2,
   Users,
@@ -22,12 +22,12 @@ const DashboardLayout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [tempFilter, setTempFilter] = useState("All"); // Tem
-
+ 
   const applyFilter = () => {
     setFilter(tempFilter);
     setIsFilterOpen(false);
   };
-
+ 
   const mockData = {
     user: {
       name: "John Doe",
@@ -76,7 +76,7 @@ const DashboardLayout = () => {
       },
     ],
   };
-  
+ 
   const filteredReferrals = mockData.recentReferrals.filter((referral) => {
     switch (filter) {
       case "Successful":
@@ -87,8 +87,8 @@ const DashboardLayout = () => {
         return true;
     }
   });
-
-
+ 
+ 
   const NavLinks = () => (
     <nav className="space-y-2">
       <a
@@ -121,7 +121,7 @@ const DashboardLayout = () => {
       </a>
     </nav>
   );
-
+ 
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="w-full bg-white border-b border-gray-200 px-4 py-3 fixed top-0 left-0 right-0 z-10">
@@ -136,14 +136,14 @@ const DashboardLayout = () => {
               <Menu className="h-6 w-6 text-gray-600" />
             )}
           </button>
-
+ 
           <div className="flex items-center space-x-3">
             <img src="/6.png" className="h-9 w-9 rounded-full" alt="Name" />
             <span className="hidden md:inline text-sm font-medium text-gray-700">
               John Doe
             </span>
           </div>
-
+ 
           <div className="flex items-center space-x-4">
             <button className="p-2 hover:bg-gray-100 rounded-full">
               <Bell className="h-6 w-6 text-gray-600" />
@@ -156,7 +156,7 @@ const DashboardLayout = () => {
           <NavLinks />
         </div>
       </aside>
-
+ 
       {isMobileMenuOpen && (
         <div className="lg:hidden fixed inset-0 z-50">
           <div
@@ -170,7 +170,7 @@ const DashboardLayout = () => {
           </div>
         </div>
       )}
-
+ 
       <main className="lg:ml-64 pt-16 min-h-screen">
         <div className="p-6">
           <div className="mb-8">
@@ -186,10 +186,10 @@ const DashboardLayout = () => {
                 <p className="text-2xl font-bold text-gray-900">
                   {mockData.user.totalReferrals}
                 </p>
-                {/* <div className="mt-2 flex items-center text-sm text-green-600">
+                <div className="mt-2 flex items-center text-sm text-green-600">
                   <TrendingUp size={16} className="mr-1" />
                   <span>12% increase</span>
-                </div> */}
+                </div>
               </div>
               <div className="bg-white p-6 rounded-xl shadow-sm">
                 <div className="flex items-center justify-between mb-4">
@@ -201,10 +201,10 @@ const DashboardLayout = () => {
                 <p className="text-2xl font-bold text-gray-900">
                   ₹{mockData.user.totalEarnings}
                 </p>
-                {/* <div className="mt-2 flex items-center text-sm text-green-600">
+                <div className="mt-2 flex items-center text-sm text-green-600">
                   <TrendingUp size={16} className="mr-1" />
                   <span>8% increase</span>
-                </div> */}
+                </div>
               </div>
               <div className="bg-white p-6 rounded-xl shadow-sm">
                 <div className="flex items-center justify-between mb-4">
@@ -216,7 +216,7 @@ const DashboardLayout = () => {
                 <p className="text-2xl font-bold text-gray-900">
                   {mockData.user.badge}
                 </p>
-                {/* <p className="mt-2 text-sm text-gray-500">2 upgrades to Gold</p> */}
+                <p className="mt-2 text-sm text-gray-500">2 upgrades to Gold</p>
               </div>
               <div className="bg-white p-6 rounded-xl shadow-sm">
                 <div className="flex items-center justify-between mb-4">
@@ -228,11 +228,11 @@ const DashboardLayout = () => {
                 <p className="text-2xl font-bold text-gray-900">
                   {mockData.user.totalUpgrades}
                 </p>
-                {/* <p className="mt-2 text-sm text-gray-500">Top 10%</p> */}
+                <p className="mt-2 text-sm text-gray-500">Top 10%</p>
               </div>
             </div>
           </div>
-
+ 
           <div className="bg-white p-6 rounded-xl shadow-sm mb-8">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">
               Your Referral Link
@@ -313,9 +313,9 @@ const DashboardLayout = () => {
                     <p className="text-base font-bold text-gray-700 px-2">comission
                     ₹{referral.comission}
                     </p>
-
+ 
                   </div>
-                  
+                 
                 </div>
                 <p className="text-xs text-muted-foreground whitespace-nowrap text-gray-500">
                   {referral.date}
@@ -327,23 +327,23 @@ const DashboardLayout = () => {
              {isFilterOpen && (
           <>
             {/* Overlay */}
-            <div 
+            <div
               className="fixed inset-0 bg-black bg-opacity-50 z-40"
               onClick={() => setIsFilterOpen(false)}
             />
-            
+           
             {/* Filter Panel */}
             <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl p-6 z-50 transform transition-transform duration-300 ease-out shadow-lg">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-lg font-semibold">Filter Referrals</h3>
-                <button 
+                <button
                   onClick={() => setIsFilterOpen(false)}
                   className="p-2 hover:bg-gray-100 rounded-full"
                 >
                   <X size={20} />
                 </button>
               </div>
-              
+             
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <button
@@ -359,7 +359,7 @@ const DashboardLayout = () => {
                       {mockData.recentReferrals.filter(r => r.status === "Upgraded").length} referrals
                     </div>
                   </button>
-                  
+                 
                   <button
                     className={`p-4 rounded-lg border-2 transition-all ${
                       tempFilter === "Pending"
@@ -374,7 +374,7 @@ const DashboardLayout = () => {
                     </div>
                   </button>
                 </div>
-
+ 
                 <div className="flex gap-4 pt-4">
                   <button
                     onClick={() => {
@@ -402,5 +402,7 @@ const DashboardLayout = () => {
     </div>
   );
 };
-
+ 
 export default DashboardLayout;
+ 
+ 

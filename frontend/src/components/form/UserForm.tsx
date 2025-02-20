@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+ 
 const UserForm = ({ onNext }: { onNext: () => void }) => {
   const [formData, setFormData] = useState({
     name: "",
@@ -8,14 +8,14 @@ const UserForm = ({ onNext }: { onNext: () => void }) => {
     businessName: "",
     agreement: false,
   });
-
+ 
   const [errors, setErrors] = useState({
     name: "",
     phone: "",
     email: "",
     agreement: "",
   });
-
+ 
   // Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -25,7 +25,7 @@ const UserForm = ({ onNext }: { onNext: () => void }) => {
     }));
     setErrors((prev) => ({ ...prev, [name]: "" })); // Clear errors when typing
   };
-
+ 
   // Validate form
   const validate = () => {
     const newErrors = { name: "", phone: "", email: "", agreement: "" };
@@ -35,18 +35,52 @@ const UserForm = ({ onNext }: { onNext: () => void }) => {
     if (!formData.agreement) newErrors.agreement = "You must agree to the Partner Program Agreement.";
     return newErrors;
   };
-
-  // Handle form submission
-  const handleSubmit = (e: React.FormEvent) => {
+ 
+ 
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors = validate();
     if (Object.values(newErrors).some((err) => err !== "")) {
       setErrors(newErrors);
       return;
     }
-    onNext(); // Proceed to Step 3 (Terms & Conditions)
+ 
+    // Prepare data
+    const requestData = {
+      name: formData.name,
+      phoneNumber: formData.phone,
+      email: formData.email,
+      businessName: formData.businessName || "",
+    };
+ 
+    try {
+      const response = await fetch("http://localhost:4000/graphql", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: `
+            mutation CreateReferral($input: CreateReferralInput!) {
+              createReferral(input: $input) {
+                name
+                referralLink
+              }
+            }
+          `,
+          variables: { input: requestData },
+        }),
+      });
+ 
+      const result = await response.json();
+      console.log("Referral Created:", result.data.createReferral);
+      onNext(); // Proceed to Step 3 (Terms & Conditions)
+    } catch (error) {
+      console.error("Error creating referral:", error);
+    }
   };
-
+ 
+ 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
       <div className="max-w-lg w-full bg-white p-8 rounded-lg shadow-md">
@@ -65,7 +99,7 @@ const UserForm = ({ onNext }: { onNext: () => void }) => {
           />
           {errors.name && <p className="text-red-500 text-xs">{errors.name}</p>}
         </div>
-
+ 
         <div>
           <label className="block text-sm font-medium">Business Name (Optional)</label>
           <input
@@ -77,7 +111,7 @@ const UserForm = ({ onNext }: { onNext: () => void }) => {
             placeholder="Enter your business name"
           />
         </div>
-
+ 
         <div>
           <label className="block text-sm font-medium">Phone Number</label>
           <input
@@ -90,7 +124,7 @@ const UserForm = ({ onNext }: { onNext: () => void }) => {
           />
           {errors.phone && <p className="text-red-500 text-xs">{errors.phone}</p>}
         </div>
-
+ 
         <div>
           <label className="block text-sm font-medium">Email</label>
           <input
@@ -103,7 +137,7 @@ const UserForm = ({ onNext }: { onNext: () => void }) => {
           />
           {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
         </div>
-
+ 
         <div className="flex items-center">
           <input
             type="checkbox"
@@ -115,7 +149,7 @@ const UserForm = ({ onNext }: { onNext: () => void }) => {
           <label className="text-sm">I agree to the Partner Program Agreement</label>
         </div>
         {errors.agreement && <p className="text-red-500 text-xs">{errors.agreement}</p>}
-
+ 
         <button
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
@@ -127,5 +161,7 @@ const UserForm = ({ onNext }: { onNext: () => void }) => {
     </div>
   );
 };
-
+ 
 export default UserForm;
+ 
+ 
