@@ -1,11 +1,12 @@
-"use client";
-import { useRouter } from "next/navigation";
-import LandingPage from "../components/landingpage/LandingPage";
+// "use client";
+// import { useRouter } from "next/navigation";
+// import LandingPage from "../components/landingpage/LandingPage";
 
-const Landingpage = () => {
-  const router = useRouter();
+// const Landingpage = () => {
+//   const router = useRouter();
 
-  return <LandingPage onNext={() => router.push("/landingpage")} />;
-};
+//   return <LandingPage onNext={() => router.push("/form")} />;
+// };
 
-export default Landingpage;
+// export default Landingpage;
+// // 

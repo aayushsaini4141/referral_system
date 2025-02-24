@@ -7,7 +7,6 @@ import {
   X,
   Home,
   User,
-  Settings,
   BarChart,
   Medal,
   Trophy,
@@ -18,6 +17,11 @@ import {
   Wallet,
   Hourglass,
   ChevronDownIcon,
+  CircleCheckBigIcon,
+  FileQuestion,
+  FileSignature,
+  FileTerminal,
+  EarthLockIcon,
 } from "lucide-react";
 
 // Define the exact query structure to match your backend schema
@@ -38,7 +42,7 @@ const DashboardLayout = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [tempFilter, setTempFilter] = useState("All");
   const [userData, setUserData] = useState({
-    name: "Asus ROG", // Default fallback value
+    name: "Alex", // Default fallback value
     referralLink: "https://ooulet.com/ref/johndoe", // Default fallback value
   });
 
@@ -94,7 +98,7 @@ const DashboardLayout = () => {
         name: "Bob Shop",
         date: "21 Feb 2025, 11.50 AM",
         status: "Pending",
-        Plan: "Startup (Y)",
+        Plan: "Free",
         amount: 0.00,
         comission: 0.00,
       },
@@ -110,7 +114,7 @@ const DashboardLayout = () => {
         name: "David Mart",
         date: "21 Feb 2025, 11.50 AM",
         status: "Pending",
-        Plan: "Startup (Y)",
+        Plan: "Free",
         amount: 0.00,
         comission: 0.00,
       },
@@ -146,11 +150,18 @@ const DashboardLayout = () => {
         Dashboard
       </a>
       <a
-        href="#"
+        href="../components/referrals/referrals"
         className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
       >
         <BarChart className="h-5 w-5 mr-3" />
-        Analytics
+        Refferals
+      </a>
+      <a
+        href="#"
+        className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+      >
+        <CircleCheckBigIcon className="h-5 w-5 mr-3" />
+        Payouts
       </a>
       <a
         href="#"
@@ -163,8 +174,29 @@ const DashboardLayout = () => {
         href="#"
         className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
       >
-        <Settings className="h-5 w-5 mr-3" />
-        Settings
+        <FileQuestion className="h-5 w-5 mr-3" />
+        FAQs
+      </a>
+      <a
+        href="#"
+        className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+      >
+        <FileSignature className="h-5 w-5 mr-3" />
+        Agreement
+      </a>
+      <a
+        href="#"
+        className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+      >
+        <FileTerminal className="h-5 w-5 mr-3" />
+        Terms
+      </a>
+      <a
+        href="#"
+        className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+      >
+        <EarthLockIcon className="h-5 w-5 mr-3" />
+        Payout Policy
       </a>
     </nav>
   );
@@ -177,54 +209,72 @@ const DashboardLayout = () => {
         </div>
       )} */}
 
-      <header className="w-full bg-[var(--icon-color)] border-b border-gray-200 px-4 py-3 fixed top-0 left-0 right-0 z-10">
-        <div className="flex items-center justify-between">
-          <button
-            className="lg:hidden p-2 hover:bg-gray-100 rounded-lg"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? (
-              <X className="h-6 w-6 text-gray-600" />
-            ) : (
-              <Menu className="h-6 w-6 text-white" />
-            )}
-          </button>
-
-          <div className="hidden">
-            <img src="/6.png" className="h-9 w-9 rounded-full" alt="Profile" />
-            <span className="hidden md:inline text-sm font-medium text-white">
-              {loading ? "Loading..." : userData.name}
-            </span>
-          </div>
-
-          <div className="flex items-center space-x-4">
-            <button className="p-2 hover:bg-gray-100 rounded-full">
-              <Bell className="h-6 w-6 text-white" />
-            </button>
-          </div>
-        </div>
-      </header>
-      <aside className="hidden lg:block fixed left-0 top-0 bottom-0 w-64 bg-white border-r border-gray-200 pt-20">
-        <div className="p-4">
-          <NavLinks />
-        </div>
-      </aside>
-
-      {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-50">
-          <div
-            className="fixed inset-0 bg-gray-800/50"
-            onClick={() => setIsMobileMenuOpen(false)}
-          />
-          <div className="fixed inset-y-0 left-0 w-64 bg-white shadow-lg">
-          <X className="h-6 w-6 text-gray-600" />
-
-            <div className="p-4 pt-10">
-              <NavLinks />
-            </div>
-          </div>
-        </div>
+<header className="w-full bg-[var(--icon-color)] border-b border-gray-200 px-4 py-3 fixed top-0 left-0 right-0 z-10">
+  <div className="flex items-center justify-between">
+    {/* Mobile Menu Toggle Button */}
+    <button
+      className="lg:hidden p-2 rounded-lg"
+      onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+    >
+      {isMobileMenuOpen ? (
+        <X className="h-6 w-6 text-gray-600" />
+      ) : (
+        <Menu className="h-6 w-6 text-white" />
       )}
+    </button>
+
+    <div className="hidden">
+      <img src="/6.png" className="h-9 w-9 rounded-full" alt="Profile" />
+      <span className="hidden md:inline text-sm font-medium text-white">
+        {loading ? "Loading..." : userData.name}
+      </span>
+    </div>
+
+    {/* Notifications Button */}
+    <div className="flex items-center space-x-4">
+      <button className="p-2 hover:bg-gray-100 rounded-full">
+        <Bell className="h-6 w-6 text-white" />
+      </button>
+    </div>
+  </div>
+</header>
+
+{/* Sidebar for larger screens */}
+<aside className="hidden lg:block fixed left-0 top-0 bottom-0 w-64 bg-white border-r border-gray-200 pt-20">
+  <div className="p-4">
+    <NavLinks />
+  </div>
+</aside>
+
+{/* Mobile Menu */}
+{isMobileMenuOpen && (
+  <div className="lg:hidden fixed inset-0 z-50">
+    {/* Background Overlay (Click to Close) */}
+    <div
+      className="fixed inset-0 bg-gray-800/50"
+      onClick={() => setIsMobileMenuOpen(false)}
+    />
+
+    {/* Sidebar Menu */}
+    <div className="fixed inset-y-0 left-0 w-64 bg-white shadow-lg">
+      {/* Close Button (Fixed) */}
+      <div className="flex justify-end p-4">
+        <button
+          className="p-2 rounded-lg"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          <X className="h-6 w-6 text-gray-600" />
+        </button>
+      </div>
+
+      {/* Navigation Links */}
+      <div className="p-4">
+        <NavLinks />
+      </div>
+    </div>
+  </div>
+)}
+
       <main className="lg:ml-64 pt-16 min-h-screen">
         <div className="bg-white p-3 rounded-xl shadow-md border  m-4 ">
           <h2 className="text-base font-semibold text-gray-900 mb-4">
