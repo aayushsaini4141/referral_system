@@ -94,7 +94,7 @@ const DashboardLayout = () => {
         name: "Bob Shop",
         date: "21 Feb 2025, 11.50 AM",
         status: "Pending",
-        Plan: "Free",
+        Plan: "Startup (Y)",
         amount: 0.00,
         comission: 0.00,
       },
@@ -109,7 +109,7 @@ const DashboardLayout = () => {
       {
         name: "David Mart",
         date: "21 Feb 2025, 11.50 AM",
-        status: "Pennding",
+        status: "Pending",
         Plan: "Startup (Y)",
         amount: 0.00,
         comission: 0.00,
@@ -390,7 +390,9 @@ const DashboardLayout = () => {
         className={`px-2 py-1 text-xs font-semibold rounded-md ${
           referral.status === "Successfull"
             ? "bg-green-100 text-green-800"
-            :"bg-yellow-100 text-yellow-800"
+            : 
+            "bg-yellow-100 text-yellow-800"
+            
         }`}
       >
         {referral.status}
