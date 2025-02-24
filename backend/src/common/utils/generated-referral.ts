@@ -3,5 +3,5 @@ export const generateReferralCode = (): string => {
 };
 
 export const generateReferralLink = (userId: string): string => {
-  return `http://localhost:4000/graphql/${userId}-${generateReferralCode()}`;
+  return `https://play.google.com/store/apps/details?id=solutions.digitalumbrella.ooulet&hl=en_US&pli=1/${userId}-${generateReferralCode()}`;
 };
