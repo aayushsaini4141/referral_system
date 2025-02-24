@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "@/styles/globals.css";
  
 const UserForm = ({ onNext }: { onNext: () => void }) => {
   const [formData, setFormData] = useState({
@@ -88,51 +89,58 @@ const UserForm = ({ onNext }: { onNext: () => void }) => {
         <p className="text-center text-gray-600 mb-6">Complete your profile to start earning</p>
       <form onSubmit={handleSubmit} className="mt-4 space-y-4">
         <div>
-          <label className="block text-sm font-medium">Name</label>
+          <label className="text-gray-500 block text-sm font-medium">Name</label>
           <input
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md"
+            className="w-full px-4 py-2 border rounded-md text-gray-900"
             placeholder="Enter your name"
           />
           {errors.name && <p className="text-red-500 text-xs">{errors.name}</p>}
         </div>
  
         <div>
-          <label className="block text-sm font-medium">Business Name (Optional)</label>
+          <label className="text-gray-500 block text-sm font-medium">Business Name (Optional)</label>
           <input
             type="text"
             name="businessName"
             value={formData.businessName}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md"
+            className="w-full px-4 py-2 border rounded-md text-gray-900"
             placeholder="Enter your business name"
           />
         </div>
  
         <div>
-          <label className="block text-sm font-medium">Phone Number</label>
-          <input
-            type="tel"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md"
-            placeholder="Enter your phone number"
-          />
-          {errors.phone && <p className="text-red-500 text-xs">{errors.phone}</p>}
-        </div>
+  <label className="text-gray-500 block text-sm font-medium">Phone Number</label>
+  <input
+    type="tel"
+    name="phone"
+    value={formData.phone}
+    onChange={(e) => {
+      const value = e.target.value;
+      // Allow only numbers and ensure it's not longer than 10 digits
+      if (/^\d*$/.test(value) && value.length <= 10) {
+        handleChange(e);
+      }
+    }}
+    className="w-full px-4 py-2 border rounded-md text-gray-900"
+    placeholder="Enter your phone number"
+  />
+  {errors.phone && <p className="text-red-500 text-xs">{errors.phone}</p>}
+</div>
+
  
         <div>
-          <label className="block text-sm font-medium">Email</label>
+          <label className="text-gray-500 block text-sm font-medium">Email</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md"
+            className="w-full px-4 py-2 border rounded-md text-gray-900"
             placeholder="Enter your email"
           />
           {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
@@ -144,15 +152,15 @@ const UserForm = ({ onNext }: { onNext: () => void }) => {
             name="agreement"
             checked={formData.agreement}
             onChange={handleChange}
-            className="mr-2"
+            className="mr-2 "
           />
-          <label className="text-sm">I agree to the Partner Program Agreement</label>
+          <label className="text-gray-600 text-sm">I agree to the Partner Program Agreement</label>
         </div>
         {errors.agreement && <p className="text-red-500 text-xs">{errors.agreement}</p>}
  
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+          className="w-full bg-[var(--icon-color)] text-white py-2 rounded-md "
         >
           Next
         </button>
