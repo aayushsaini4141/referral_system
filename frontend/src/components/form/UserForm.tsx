@@ -65,7 +65,7 @@ const UserForm = ({ onNext }: { onNext: () => void }) => {
             mutation CreateReferral($input: CreateReferralInput!) {
               createReferral(input: $input) {
                 name
-                referralLink
+                referralCode
               }
             }
           `,
