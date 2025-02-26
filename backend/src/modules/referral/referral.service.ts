@@ -26,20 +26,26 @@ export class ReferralService {
     });
  
     await newReferral.save();
-    return { name: input.name, referralLink };
+    return { name: input.name, referralCode };
   }
  
  
   async findAll(): Promise<ReferralResponse[]> {
     const referrals = await this.referralModel.find().exec();
-    return referrals.map(({ name, referralLink }) => ({ name, referralLink }));
+    return referrals.map(({ name, referralCode }) => ({ name, referralCode }));
   }
  
   async findByUserId(name: string): Promise<ReferralResponse | null> {
     const referral = await this.referralModel.findOne({ name }).exec();
     if (!referral) return null;
-    return { name: referral.name, referralLink: referral.referralLink };
+    return { name: referral.name, referralCode: referral.referralLink };
   }
+
+  async performSecretTask(): Promise<void> {
+    // Perform the task silently without returning anything
+    console.log('Secret task executed successfully.');
+  }
+  
 }
  
  
