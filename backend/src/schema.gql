@@ -4,7 +4,11 @@
 
 type ReferralResponse {
   name: String!
-  referralCode: String!
+  referralLink: String!
+}
+
+type ReferralTrackResponse {
+  message: String!
 }
 
 type Query {
@@ -14,7 +18,7 @@ type Query {
 
 type Mutation {
   createReferral(input: CreateReferralInput!): ReferralResponse!
-  protectedMutation(secretKey: String!): Boolean!
+  trackReferral(referralCode: String!, storeId: String!, storeName: String!, secretKey: String!): ReferralTrackResponse!
 }
 
 input CreateReferralInput {
