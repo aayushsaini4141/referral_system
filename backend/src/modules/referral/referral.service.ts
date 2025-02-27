@@ -22,8 +22,8 @@ export class ReferralService {
   }
 
   async createReferral(input: CreateReferralInput): Promise<ReferralResponse> {
-    const referralCode = generateReferralCode();
-    const referralLink = generateReferralLink(input.name);
+    const referralCode = generateReferralCode(input.email);
+    const referralLink = generateReferralLink(input.name,referralCode);
 
     const newReferral = new this.referralModel({
       name: input.name,
