@@ -6,7 +6,7 @@ export class ReferralResponse {
   name: string;
 
   @Field()
-  referralLink: string;
+  referralCode: string;
 }
 
 @InputType()

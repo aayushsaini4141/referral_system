@@ -36,7 +36,7 @@ export class ReferralService {
     });
 
     await newReferral.save();
-    return { name: input.name, referralLink };
+    return { name: input.name, referralCode };
   }
 
   async trackReferral(referralCode: string, storeId: string, storeName: string, secretKey: string): Promise<{ message: string }> {
