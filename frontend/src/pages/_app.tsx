@@ -3,7 +3,7 @@ import { ApolloProvider, InMemoryCache, ApolloClient } from "@apollo/client";
 import "../styles/globals.css";
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql", // Update to your backend GraphQL URL
+  uri: process.env.NEXT_PUBLIC_GRAPHQL_URI, // Update to your backend GraphQL URL
   cache: new InMemoryCache(),
 });
 

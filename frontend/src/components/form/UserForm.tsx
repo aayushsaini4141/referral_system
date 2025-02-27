@@ -55,7 +55,12 @@ const UserForm = ({ onNext }: { onNext: () => void }) => {
     };
  
     try {
-      const response = await fetch("http://localhost:4000/graphql", {
+      const graphqlUri = process.env.NEXT_PUBLIC_GRAPHQL_URI;
+      if (!graphqlUri) {
+        throw new Error("GraphQL URI is not defined");
+      }
+
+      const response = await fetch(graphqlUri, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -79,8 +84,7 @@ const UserForm = ({ onNext }: { onNext: () => void }) => {
     } catch (error) {
       console.error("Error creating referral:", error);
     }
-  };
- 
+  }; 
  
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
