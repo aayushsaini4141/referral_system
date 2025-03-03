@@ -1,7 +1,8 @@
 import { Resolver, Mutation, Query, Args } from '@nestjs/graphql';
 import { ReferralService } from './referral.service';
 import { ReferralResponse, CreateReferralInput, ReferralTrackResponse } from './referral.dto';
-
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 @Resolver()
 export class ReferralResolver {
   constructor(private readonly referralService: ReferralService) {}
@@ -21,13 +22,15 @@ export class ReferralResolver {
     return await this.referralService.createReferral(input);
   }
 
+
   @Mutation(() => ReferralTrackResponse)
+  @UseGuards(JwtAuthGuard)
   async trackReferral(
     @Args('referralCode') referralCode: string,
     @Args('storeId') storeId: string,
     @Args('storeName') storeName: string,
-    @Args('secretKey') secretKey: string
+    
   ): Promise<ReferralTrackResponse> {
-    return this.referralService.trackReferral(referralCode, storeId, storeName, secretKey);
+    return this.referralService.trackReferral(referralCode, storeId, storeName);
   }
 }

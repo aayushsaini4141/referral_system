@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Referral } from './referral.schema';
 import { CreateReferralInput, ReferralResponse } from './referral.dto';
-import { generateReferralCode, generateReferralLink } from '../../common/utils/generated-referral';
+import { generateReferralCode, generateReferralLink } from '../../utils/generated-referral';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
@@ -39,12 +39,10 @@ export class ReferralService {
     return { name: input.name, referralCode };
   }
 
-  async trackReferral(referralCode: string, storeId: string, storeName: string, secretKey: string): Promise<{ message: string }> {
-    const storedSecretKey = this.configService.get<string>('SECRET_KEY');
+  async trackReferral(referralCode: string, storeId: string, storeName: string): Promise<{ message: string }> {
+    // const storedSecretKey = this.configService.get<string>('SECRET_KEY');
 
-    if (secretKey !== storedSecretKey) {
-      throw new UnauthorizedException('Unauthorized: Invalid secret key');
-    }
+ 
 
     const referral = await this.referralModel.findOne({ referralCode });
     if (!referral) {

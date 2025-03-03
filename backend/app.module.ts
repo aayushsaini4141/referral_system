@@ -5,6 +5,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ReferralModule } from './src/modules/referral/referral.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { join } from 'path';
+import{ AuthModule } from './src/auth/auth.module';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { join } from 'path';
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGO_URI', 'mongodb://localhost:27017/referral_system'),
+        uri: configService.get<string>('MONGO_URI'),
       }),
       inject: [ConfigService],
     }),
@@ -25,6 +26,7 @@ import { join } from 'path';
       playground: true,
     }),
     ReferralModule,
+      AuthModule,
   ],
   controllers: [],
   providers: [],
