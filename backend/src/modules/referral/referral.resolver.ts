@@ -16,7 +16,7 @@ export class ReferralResolver {
   async getReferralByName(@Args('name') name: string): Promise<ReferralResponse | null> {
     return this.referralService.findByUserId(name);
   }
-
+  
   @Mutation(() => ReferralResponse)
   async createReferral(@Args('input') input: CreateReferralInput): Promise<ReferralResponse> {
     return await this.referralService.createReferral(input);
