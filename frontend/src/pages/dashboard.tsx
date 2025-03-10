@@ -135,7 +135,7 @@ const DashboardLayout = () => {
         Refferals
       </a>
       <a
-        href="#"
+        href="payouts"
         className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
       >
         <CircleCheckBigIcon className="h-5 w-5 mr-3" />
@@ -156,7 +156,7 @@ const DashboardLayout = () => {
         FAQs
       </a>
       <a
-        href="#"
+        href="agreement"
         className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
       >
         <FileSignature className="h-5 w-5 mr-3" />
@@ -271,7 +271,7 @@ const DashboardLayout = () => {
         </div>
 
         <div className="m-4 bg-white shadow-md border rounded-xl">
-          <div className="">
+          
             <h1 className="text-base font-semibold text-gray-900 m-4">
               Dashboard Overview
             </h1>
@@ -343,7 +343,6 @@ const DashboardLayout = () => {
                 </p>
               </div>
             </div>
-          </div>
         </div>
       
        
