@@ -149,7 +149,7 @@ const DashboardLayout = () => {
         Profile
       </a>
       <a
-        href="#"
+        href="faq"
         className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
       >
         <FileQuestion className="h-5 w-5 mr-3" />
@@ -163,14 +163,14 @@ const DashboardLayout = () => {
         Agreement
       </a>
       <a
-        href="#"
+        href="terms"
         className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
       >
         <FileTerminal className="h-5 w-5 mr-3" />
         Terms
       </a>
       <a
-        href="#"
+        href="policy"
         className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
       >
         <EarthLockIcon className="h-5 w-5 mr-3" />
