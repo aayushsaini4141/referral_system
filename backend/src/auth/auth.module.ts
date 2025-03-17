@@ -9,9 +9,8 @@ import { AuthService } from './auth.service';
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.registerAsync({
+    JwtModule.registerAsync({                  
       imports: [ConfigModule],
-      
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),

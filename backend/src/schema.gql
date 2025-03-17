@@ -18,12 +18,14 @@ type TokenResponse {
 type Query {
   referrals: [ReferralResponse!]
   referralByName(name: String!): ReferralResponse
+  adminMe(email: String!): String!
 }
 
 type Mutation {
   createReferral(input: CreateReferralInput!): ReferralResponse!
   trackReferral(referralCode: String!, storeId: String!, storeName: String!): ReferralTrackResponse!
   generatetoken(token: String!): TokenResponse!
+  adminLogin(email: String!, password: String!): String!
 }
 
 input CreateReferralInput {

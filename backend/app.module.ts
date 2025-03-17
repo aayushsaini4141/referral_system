@@ -6,6 +6,7 @@ import { ReferralModule } from './src/modules/referral/referral.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import{ AuthModule } from './src/auth/auth.module';
+import { AdminModule } from './src/admin/admin.module';
 
 @Module({
   imports: [
@@ -27,6 +28,8 @@ import{ AuthModule } from './src/auth/auth.module';
     }),
     ReferralModule,
       AuthModule,
+      AdminModule
+    
   ],
   controllers: [],
   providers: [],
