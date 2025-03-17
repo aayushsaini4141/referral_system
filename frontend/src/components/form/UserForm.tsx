@@ -87,9 +87,15 @@ const UserForm = ({ onNext }: { onNext: () => void }) => {
   }; 
  
   return (
+    <>
+    
+    <div className="w-full border-b h-20 flex justify-center items-center">
+      <img src="newlogo2.png" alt="hello" className="h-12 w-auto "/>
+
+    </div>
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
       <div className="max-w-lg w-full bg-white p-8 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center text-gray-900">Join Ooulet Partner Program</h2>
+        <h2 className="text-2xl font-bold text-center text-gray-900">Ooulet Partner Program</h2>
         <p className="text-center text-gray-600 mb-6">Complete your profile to start earning</p>
       <form onSubmit={handleSubmit} className="mt-4 space-y-4">
         <div>
@@ -105,17 +111,7 @@ const UserForm = ({ onNext }: { onNext: () => void }) => {
           {errors.name && <p className="text-red-500 text-xs">{errors.name}</p>}
         </div>
  
-        <div>
-          <label className="text-gray-500 block text-sm font-medium">Business Name (Optional)</label>
-          <input
-            type="text"
-            name="businessName"
-            value={formData.businessName}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md text-gray-900"
-            placeholder="Enter your business name"
-          />
-        </div>
+        
  
         <div>
   <label className="text-gray-500 block text-sm font-medium">Phone Number</label>
@@ -149,16 +145,29 @@ const UserForm = ({ onNext }: { onNext: () => void }) => {
           />
           {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
         </div>
+
+        <div>
+          <label className="text-gray-500 block text-sm font-medium">Business Name (Optional)</label>
+          <input
+            type="text"
+            name="businessName"
+            value={formData.businessName}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border rounded-md text-gray-900"
+            placeholder="Enter your business name"
+          />
+        </div>
  
-        <div className="flex items-center">
+        <div className="flex items-start ">
           <input
             type="checkbox"
             name="agreement"
             checked={formData.agreement}
             onChange={handleChange}
-            className="mr-2 "
+            className="mr-2 size-6 "
           />
-          <label className="text-gray-600 text-sm">I agree to the Partner Program Agreement</label>
+          <label className="text-gray-600 text-sm pt-0.5">
+          I agree to the Partner Program Agreement and Terms of Service</label>
         </div>
         {errors.agreement && <p className="text-red-500 text-xs">{errors.agreement}</p>}
  
@@ -166,11 +175,13 @@ const UserForm = ({ onNext }: { onNext: () => void }) => {
           type="submit"
           className="w-full bg-[var(--icon-color)] text-white py-2 rounded-md "
         >
-          Next
+          Join Partner Program
         </button>
       </form>
     </div>
     </div>
+
+    </>
   );
 };
  
