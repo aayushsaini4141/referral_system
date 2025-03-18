@@ -1,4 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 
 @InputType()
 export class AdminLoginInput {
@@ -7,6 +7,12 @@ export class AdminLoginInput {
 
   @Field()
   password: string;
+}
+
+@ObjectType()
+export class PasswordUpdateResponse {
+  @Field()
+  message: string;
 }
 
 @InputType()

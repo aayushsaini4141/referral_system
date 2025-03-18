@@ -15,6 +15,10 @@ type TokenResponse {
   access_token: String!
 }
 
+type PasswordUpdateResponse {
+  message: String!
+}
+
 type Query {
   referrals: [ReferralResponse!]
   referralByName(name: String!): ReferralResponse
@@ -26,6 +30,7 @@ type Mutation {
   trackReferral(referralCode: String!, storeId: String!, storeName: String!): ReferralTrackResponse!
   generatetoken(token: String!): TokenResponse!
   adminLogin(email: String!, password: String!): String!
+  changePassword(email: String!, oldPassword: String!, newPassword: String!): PasswordUpdateResponse!
 }
 
 input CreateReferralInput {

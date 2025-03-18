@@ -29,7 +29,7 @@ export class AdminService {
     return { message:'Login Sucessfully' };
   }
 
-  async updatePassword(email: string, oldPassword: string, newPassword: string) {
+  async updatePassword(email: string, oldPassword: string, newPassword: string): Promise<{ message: string }> {
     const admin = await this.adminModel.findOne({ email });
     if (!admin || !(await bcrypt.compare(oldPassword, admin.password))) {
       throw new BadRequestException('Incorrect old password');
@@ -38,4 +38,7 @@ export class AdminService {
     await admin.save();
     return { message: 'Password updated successfully' };
   }
+  
+
+  
 }
