@@ -44,7 +44,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { FiUsers, FiLink, FiBarChart2, FiSettings, FiLogOut, FiRefreshCw} from 'react-icons/fi';
 
 // Define types for our data
 interface AdminData {
@@ -106,6 +105,12 @@ const AdminDashboard = () => {
   const [userSearch, setUserSearch] = useState('');
   const [, setSelectedReferral] = useState<ReferralData | null>(null);
 
+  const [email, setEmail] = useState('');
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+  const [showChangePassword, setShowChangePassword] = useState(false);
   // Get admin token
   const getToken = () => localStorage.getItem('admin_token');
 
@@ -249,6 +254,38 @@ const AdminDashboard = () => {
     router.push('/admin/login');
   };
 
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_GRAPHQL_URI}`, {
+        query: `
+          mutation ChangePassword($email: String!, $oldPassword: String!, $newPassword: String!) {
+            changePassword(email: $email, oldPassword: $oldPassword, newPassword: $newPassword)
+            {
+            message}
+          }
+        `,
+        variables: {
+          email,
+          oldPassword,
+          newPassword,
+        },
+      });
+
+      const responseMessage = res.data?.data?.changePassword;
+      if (responseMessage) {
+        setMessage('Password updated successfully');
+        setError('');
+      } else {
+        setMessage('');
+        setError('Failed to update password');
+      }
+    } catch (err) {
+      console.error('Error:', err);
+      setError('Failed to update password');
+    }
+  };
+
   // Filter referrals based on search
   const filteredReferrals = allReferrals.filter(referral => 
     referral.name.toLowerCase().includes(referralSearch.toLowerCase()) ||
@@ -335,47 +372,102 @@ const AdminDashboard = () => {
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
       <div className="w-64 bg-white shadow-md">
-        <div className="p-6">
-          <h1 className="text-2xl font-bold text-blue-600">Admin Portal</h1>
-        </div>
-        <nav className="mt-6">
-          <div 
-            className={`p-4 flex items-center ${activeTab === 'dashboard' ? 'bg-blue-100 text-blue-600' : 'text-gray-700 hover:bg-gray-100'} cursor-pointer`}
-            onClick={() => setActiveTab('dashboard')}
-          >
-            <FiBarChart2 className="mr-3" />
-            <span>Dashboard</span>
-          </div>
-          <div 
-            className={`p-4 flex items-center ${activeTab === 'users' ? 'bg-blue-100 text-blue-600' : 'text-gray-700 hover:bg-gray-100'} cursor-pointer`}
-            onClick={() => setActiveTab('users')}
-          >
-            <FiUsers className="mr-3" />
-            <span>Users</span>
-          </div>
-          <div 
-            className={`p-4 flex items-center ${activeTab === 'referrals' ? 'bg-blue-100 text-blue-600' : 'text-gray-700 hover:bg-gray-100'} cursor-pointer`}
-            onClick={() => setActiveTab('referrals')}
-          >
-            <FiLink className="mr-3" />
-            <span>Referrals</span>
-          </div>
-          <div 
-            className={`p-4 flex items-center ${activeTab === 'settings' ? 'bg-blue-100 text-blue-600' : 'text-gray-700 hover:bg-gray-100'} cursor-pointer`}
-            onClick={() => setActiveTab('settings')}
-          >
-            <FiSettings className="mr-3" />
-            <span>Settings</span>
-          </div>
-          <div 
-            className="p-4 flex items-center text-gray-700 hover:bg-gray-100 cursor-pointer mt-auto"
-            onClick={handleLogout}
-          >
-            <FiLogOut className="mr-3" />
-            <span>Logout</span>
-          </div>
-        </nav>
+      <div className="p-6">
+        <h1 className="text-2xl font-bold text-blue-600">Admin Portal</h1>
       </div>
+
+      <nav className="mt-6">
+        <div
+          className={`p-4 flex items-center ${
+            activeTab === 'dashboard' ? 'bg-blue-100 text-blue-600' : 'text-gray-700 hover:bg-gray-100'
+          } cursor-pointer`}
+          onClick={() => setActiveTab('dashboard')}
+        >
+          <div className="mr-3" />
+          <span>Dashboard</span>
+        </div>
+        <div
+          className={`p-4 flex items-center ${
+            activeTab === 'users' ? 'bg-blue-100 text-blue-600' : 'text-gray-700 hover:bg-gray-100'
+          } cursor-pointer`}
+          onClick={() => setActiveTab('users')}
+        >
+          <div className="mr-3" />
+          <span>Users</span>
+        </div>
+        <div
+          className={`p-4 flex items-center ${
+            activeTab === 'referrals' ? 'bg-blue-100 text-blue-600' : 'text-gray-700 hover:bg-gray-100'
+          } cursor-pointer`}
+          onClick={() => setActiveTab('referrals')}
+        >
+          <div className="mr-3" />
+          <span>Referrals</span>
+        </div>
+        <div
+          className={`p-4 flex items-center ${
+            activeTab === 'settings' ? 'bg-blue-100 text-blue-600' : 'text-gray-700 hover:bg-gray-100'
+          } cursor-pointer`}
+          onClick={() => setActiveTab('settings')}
+        >
+          <div className="mr-3" />
+          <span>Settings</span>
+        </div>
+
+        {/* Change Password Button */}
+        <div
+          className="p-4 flex items-center text-gray-700 hover:bg-gray-100 cursor-pointer"
+          onClick={() => setShowChangePassword(!showChangePassword)}
+        >
+          <div className="mr-3" />
+          <span>Change Password</span>
+        </div>
+
+        {/* Change Password Form (Toggle) */}
+        {showChangePassword && (
+          <div className="p-4 bg-gray-100 border-t">
+            <form onSubmit={handleChangePassword} className="flex flex-col gap-3">
+              {message && <p className="text-green-500">{message}</p>}
+              {error && <p className="text-red-500">{error}</p>}
+
+              <input
+                type="email"
+                placeholder="Email"
+                className="p-2 border rounded"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <input
+                type="password"
+                placeholder="Old Password"
+                className="p-2 border rounded"
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
+              />
+              <input
+                type="password"
+                placeholder="New Password"
+                className="p-2 border rounded"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+              <button className="bg-blue-500 text-white p-2 rounded" type="submit">
+                Update Password
+              </button>
+            </form>
+          </div>
+        )}
+
+        {/* Logout Button */}
+        <div
+          className="p-4 flex items-center text-gray-700 hover:bg-gray-100 cursor-pointer mt-auto"
+          onClick={handleLogout}
+        >
+          <div className="mr-3" />
+          <span>Logout</span>
+        </div>
+      </nav>
+    </div>
 
       {/* Main Content */}
       <div className="flex-1 overflow-y-auto">
@@ -394,7 +486,7 @@ const AdminDashboard = () => {
                 disabled={isRefreshing}
                 className="mr-4 text-gray-600 hover:text-blue-600 flex items-center"
               >
-                <FiRefreshCw className={`mr-1 ${isRefreshing ? 'animate-spin' : ''}`} />
+                <div className={`mr-1 ${isRefreshing ? 'animate-spin' : ''}`} />
                 Refresh
               </button>
               <span className="mr-4">Welcome, {adminData?.email}</span>
