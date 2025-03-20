@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 
@@ -14,10 +14,10 @@ const AdminDashboard = () => {
   const [showChangePassword, setShowChangePassword] = useState(false);
 
 
-  const handleLogout = () => {
-    localStorage.removeItem('admin_token');
-    router.push('/admin/login');
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem('admin_token');
+  //   router.push('/admin/login');
+  // };
 
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +27,8 @@ const AdminDashboard = () => {
           mutation ChangePassword($email: String!, $oldPassword: String!, $newPassword: String!) {
             changePassword(email: $email, oldPassword: $oldPassword, newPassword: $newPassword)
             {
-            message}
+            message
+            }
           }
         `,
         variables: {
@@ -50,6 +51,12 @@ const AdminDashboard = () => {
       setError('Failed to update password');
     }
   };
+  useEffect(() => {
+    const token = localStorage.getItem('admin_token');
+    if (!token) {
+      router.push('/admin/login');
+    }
+  }, [router]);
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -144,7 +151,7 @@ const AdminDashboard = () => {
         {/* Logout Button */}
         <div
           className="p-4 flex items-center text-gray-700 hover:bg-gray-100 cursor-pointer mt-auto"
-          onClick={handleLogout}
+          onClick={() => { localStorage.removeItem('admin_token'); router.push('/admin/login'); }}
         >
           <div className="mr-3" />
           <span>Logout</span>
@@ -166,7 +173,7 @@ const AdminDashboard = () => {
             <div className="flex items-center">
               <span className="mr-4">Welcome</span>
               <button 
-                onClick={handleLogout}
+                onClick={() => { localStorage.removeItem('admin_token'); router.push('/admin/login'); }}
                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
               >
                 Logout
