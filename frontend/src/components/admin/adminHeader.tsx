@@ -22,6 +22,35 @@ const AdminHeader = () => {
     // Add your search logic here
   };
       
+      // const handleChangePassword = async (e: React.FormEvent) => {
+      //   e.preventDefault();
+      //   try {
+      //     const res = await axios.post(`${process.env.NEXT_PUBLIC_GRAPHQL_URI}`, {
+      //       query: `
+      //         mutation ChangePassword($email: String!, $oldPassword: String!, $newPassword: String!) {
+      //           changePassword(email: $email, oldPassword: $oldPassword, newPassword: $newPassword) {
+      //             message
+      //           }
+      //         }
+      //       `,
+      //       variables: { email, oldPassword, newPassword },
+      //     });
+    
+      //     const responseMessage = res.data?.data?.changePassword;
+      //     if (responseMessage) {
+      //       setMessage('Password updated successfully');
+      //       setError('');
+      //     } else {
+      //       setMessage('');
+      //       setError('Failed to update password');
+      //     }
+      //   } catch (err) {
+      //     console.error('Error:', err);
+      //     setError('Failed to update password');
+      //   }
+      // };
+    
+
       const handleChangePassword = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
@@ -35,11 +64,24 @@ const AdminHeader = () => {
             `,
             variables: { email, oldPassword, newPassword },
           });
-    
+     
           const responseMessage = res.data?.data?.changePassword;
+     
           if (responseMessage) {
             setMessage('Password updated successfully');
             setError('');
+     
+            // ✅ Clear all the fields
+            setEmail('');
+            setOldPassword('');
+            setNewPassword('');
+           
+            // ✅ Automatically close the modal after 2 seconds
+            setTimeout(() => {
+              setShowChangePassword(false);
+              setMessage('');
+            });
+     
           } else {
             setMessage('');
             setError('Failed to update password');
@@ -49,7 +91,9 @@ const AdminHeader = () => {
           setError('Failed to update password');
         }
       };
-    
+ 
+
+
       useEffect(() => {
         const token = localStorage.getItem('admin_token');
         if (!token) {
@@ -123,52 +167,56 @@ const AdminHeader = () => {
     </div>
   </header>
   {showChangePassword && (
+  <div
+    className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+    onClick={() => setShowChangePassword(false)}
+  >
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
-      onClick={() => setShowChangePassword(false)}
+      className="bg-white p-6 rounded-lg shadow-lg w-96 relative"
+      onClick={(e) => e.stopPropagation()}
     >
-      <div
-        className="bg-white p-6 rounded shadow-lg w-96 relative"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h3 className="text-lg font-semibold mb-4">Change Password</h3>
-        {message && <p className="text-green-500">{message}</p>}
-        {error && <p className="text-red-500">{error}</p>}
-        <form onSubmit={handleChangePassword} className="flex flex-col gap-3">
-          <input
-            type="email"
-            placeholder="Email"
-            className="p-2 border rounded"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Old Password"
-            className="p-2 border rounded"
-            value={oldPassword}
-            onChange={(e) => setOldPassword(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="New Password"
-            className="p-2 border rounded"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-          <button className="bg-blue-500 text-white p-2 rounded" type="submit">
-            Update Password
-          </button>
-          <button
-            onClick={() => setShowChangePassword(false)}
-            className="p-2 border rounded"
-          >
-            Cancel
-          </button>
-        </form>
-      </div>
+      <h3 className="text-lg text-center font-semibold mb-4">Change Password</h3>
+      {message && <p className="text-green-500">{message}</p>}
+      {error && <p className="text-red-500">{error}</p>}
+      <form onSubmit={handleChangePassword} className="flex flex-col">
+        <label className="text-gray-500 block text-sm font-medium">Email</label>
+        <input
+          type="email"
+          placeholder="Enter your email"
+          className="w-full p-2 border rounded mb-2"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <label className="text-gray-500 block text-sm font-medium">Password</label>
+        <input
+          type="password"
+          placeholder="Enter your password"
+          className="w-full p-2 border rounded mb-2"
+          value={oldPassword}
+          onChange={(e) => setOldPassword(e.target.value)}
+        />
+        <label className="text-gray-500 block text-sm font-medium">New Password</label>
+        <input
+          type="password"
+          placeholder="Enter new password"
+          className="w-full p-2 border rounded mb-2"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+        />
+        <button className="bg-blue-500 text-white p-2 rounded-lg my-2" type="submit">
+          Update Password
+        </button>
+        <button
+          onClick={() => setShowChangePassword(false)}
+          className="p-2 border rounded-lg"
+        >
+          Cancel
+        </button>
+      </form>
     </div>
-  )}
+  </div>
+)}
+
   </div>
     );
 };

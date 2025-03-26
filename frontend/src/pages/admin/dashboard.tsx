@@ -1,4 +1,3 @@
-// import axios from 'axios';
 import "@/styles/globals.css";
 import {
   
@@ -14,14 +13,6 @@ import AdminHeader from '@/components/admin/adminHeader';
 import { useState } from "react";
 
 const AdminDashboard = () => {
-  // const router = useRouter();
-  // const [email, setEmail] = useState('');
-  // const [oldPassword, setOldPassword] = useState('');
-  // const [newPassword, setNewPassword] = useState('');
-  // const [message, setMessage] = useState('');
-  // const [error, setError] = useState('');
-  // const [showDropdown, setShowDropdown] = useState(false);
-  // const [showChangePassword, setShowChangePassword] = useState(false);
 
   const mockData = {
     totalPartners: 1248,
@@ -38,10 +29,8 @@ const AdminDashboard = () => {
       id: '1',
       partnerName: 'TechCorp Solutions',
       amount: 4500,
-      status: 'Processed',
+      status: 'Paid',
       date: '2024-03-15',
-      bankAccount: '****4589',
-      reference: 'PAY-2024031501'
     },
     {
       id: '2',
@@ -49,184 +38,41 @@ const AdminDashboard = () => {
       amount: 2800,
       status: 'Pending',
       date: '2024-03-14',
-      bankAccount: '****7823',
-      reference: 'PAY-2024031402'
     },
     {
       id: '3',
       partnerName: 'Cloud Systems Inc',
       amount: 1200,
-      status: 'Failed',
+      status: 'Hold',
       date: '2024-03-13',
-      bankAccount: '****9034',
-      reference: 'PAY-2024031303'
     }
   ];
 
   const statusColors = {
-    Processed: 'bg-green-100 text-green-800',
+    Paid: 'bg-green-100 text-green-800',
     Pending: 'bg-yellow-100 text-yellow-800',
-    Failed: 'bg-red-100 text-red-800'
+    Hold: 'bg-red-100 text-red-800'
   };
-  
+   
   const statusIcons = {
-    Processed: CheckCircle,
+    Paid: CheckCircle,
     Pending: Clock,
-    Failed: XCircle
+    Hold: XCircle
   };
 
     const [searchTerm, setSearchTerm] = useState("");
   
-    // Filter logic
     const filteredPayouts = mockPayouts.filter((payout) =>
       ["partnerName", "status"].some((key) =>
 
-        payout[key as keyof typeof payout].toString().toLowerCase().includes(searchTerm.toLowerCase())      )
+        payout[key as keyof typeof payout].toString().toLowerCase().includes(searchTerm.toLowerCase())) 
+
     );
-  
-
-  // const handleChangePassword = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   try {
-  //     const res = await axios.post(`${process.env.NEXT_PUBLIC_GRAPHQL_URI}`, {
-  //       query: `
-  //         mutation ChangePassword($email: String!, $oldPassword: String!, $newPassword: String!) {
-  //           changePassword(email: $email, oldPassword: $oldPassword, newPassword: $newPassword) {
-  //             message
-  //           }
-  //         }
-  //       `,
-  //       variables: { email, oldPassword, newPassword },
-  //     });
-
-  //     const responseMessage = res.data?.data?.changePassword;
-  //     if (responseMessage) {
-  //       setMessage('Password updated successfully');
-  //       setError('');
-  //     } else {
-  //       setMessage('');
-  //       setError('Failed to update password');
-  //     }
-  //   } catch (err) {
-  //     console.error('Error:', err);
-  //     setError('Failed to update password');
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem('admin_token');
-  //   if (!token) {
-  //     router.push('/admin/login');
-  //   }
-  // }, [router]);
-
-  // const dropdownRef = useRef(null);
-
-  // useEffect(() => {
-  //   const handleClickOutside = (event: MouseEvent) => {
-  //     if (dropdownRef.current && !(dropdownRef.current as HTMLElement).contains(event.target as Node)) {
-  //       setShowDropdown(false);
-  //     }
-  //   };
-
-  //   if (showDropdown) {
-  //     document.addEventListener('mousedown', handleClickOutside);
-  //   } else {
-  //     document.removeEventListener('mousedown', handleClickOutside);
-  //   }
-
-  //   return () => document.removeEventListener('mousedown', handleClickOutside);
-  // }, [showDropdown]);
 
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
         <AdminHeader />
-  {/* Header - Full Width */}
-  {/* <header className="bg-white shadow-sm p-4 w-full">
-    <div className="max-w-[1440px] mx-auto flex justify-between items-center px-4">
-      <h1>Admin Panel</h1>
-      <div className="relative" ref={dropdownRef}>
-        <button
-          onClick={() => setShowDropdown(!showDropdown)}
-          className="bg-[var(--icon-color)] text-white px-4 py-2 rounded-md transition-all duration-300"
-        >
-          Profile
-        </button>
-        <div
-          className={`absolute right-0 mt-2 w-48 bg-white border rounded shadow-md transition-all duration-300 transform ${
-            showDropdown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[-10px] pointer-events-none'
-          }`}
-        >
-          <button
-            onClick={() => setShowChangePassword(true)}
-            className="block w-full text-left px-4 py-2 hover:bg-gray-100 transition-all duration-200"
-          >
-            Change Password
-          </button>
-          <button
-            onClick={() => {
-              localStorage.removeItem('admin_token');
-              router.push('/admin/login');
-            }}
-            className="block w-full text-left px-4 py-2 hover:bg-gray-100 transition-all duration-200"
-          >
-            Logout
-          </button>
-        </div>
-      </div>
-    </div>
-  </header> */}
-  {/* {showChangePassword && (
-      <div
-        className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
-        onClick={() => setShowChangePassword(false)}
-      >
-        <div
-          className="bg-white p-6 rounded shadow-lg w-96 relative"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <h3 className="text-lg font-semibold mb-4">Change Password</h3>
-          {message && <p className="text-green-500">{message}</p>}
-          {error && <p className="text-red-500">{error}</p>}
-          <form onSubmit={handleChangePassword} className="flex flex-col gap-3">
-            <input
-              type="email"
-              placeholder="Email"
-              className="p-2 border rounded"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Old Password"
-              className="p-2 border rounded"
-              value={oldPassword}
-              onChange={(e) => setOldPassword(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="New Password"
-              className="p-2 border rounded"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-            />
-            <button className="bg-blue-500 text-white p-2 rounded" type="submit">
-              Update Password
-            </button>
-            <button
-              onClick={() => setShowChangePassword(false)}
-              className="p-2 border rounded"
-            >
-              Cancel
-            </button>
-          </form>
-        </div>
-      </div>
-    )} */}
-
-  
-
   
   <main className="max-w-[1440px] w-full mx-auto flex-grow">
     <div className="m-4 bg-white shadow-md border rounded-xl">
@@ -338,8 +184,6 @@ const AdminDashboard = () => {
                 <th className="px-6 py-3 text-sm font-semibold text-gray-600">Partner</th>
                 <th className="px-6 py-3 text-sm font-semibold text-gray-600">Amount</th>
                 <th className="px-6 py-3 text-sm font-semibold text-gray-600">Status</th>
-                <th className="px-6 py-3 text-sm font-semibold text-gray-600">Bank Account</th>
-                <th className="px-6 py-3 text-sm font-semibold text-gray-600">Reference</th>
                 <th className="px-6 py-3 text-sm font-semibold text-gray-600">Date</th>
               </tr>
             </thead>
@@ -361,8 +205,6 @@ const AdminDashboard = () => {
                           <span>{payout.status}</span>
                         </span>
                       </td>
-                      <td className="px-6 py-4">{payout.bankAccount}</td>
-                      <td className="px-6 py-4">{payout.reference}</td>
                       <td className="px-6 py-4">{payout.date}</td>
                     </tr>
                   );
